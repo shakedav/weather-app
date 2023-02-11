@@ -3,7 +3,7 @@ import createSagaMiddleware from "redux-saga";
 import logger from "redux-logger";
 
 import rootReducer from "./rootReducer";                        
-import { rootSaga } from "./rootSaga";
+import weatherSaga from "./weather/sagas";
 
 // Create the saga middleware
 const sagaMiddleware = createSagaMiddleware();
@@ -12,6 +12,6 @@ const sagaMiddleware = createSagaMiddleware();
 const store = createStore(rootReducer, applyMiddleware(sagaMiddleware, logger));
 
 // Run the saga
-sagaMiddleware.run(rootSaga);
+sagaMiddleware.run(weatherSaga);
 
 export default store;

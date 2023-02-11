@@ -1,38 +1,37 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { Component } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { WeatherForecast } from "./pages/wether-forecast";
+import { Favorites } from "./pages/favorites";
+import { fetchLocationCoordsRequest } from "./store/weather/actions";
+import { connect } from "react-redux";
 
-import {
-  getPendingSelector,
-  getTodosSelector,
-  getErrorSelector,
-} from "./store/todo/selectors";
-import { fetchTodoRequest } from "./store/todo/actions";
+export class App extends Component<any, any> {
+  async componentDidMount() {
+    // const locationCoordinates = await getCurrentLocationCoordinates();
+    this.props.dispatch(fetchLocationCoordsRequest());
+  }
 
-const App = () => {
-  const dispatch = useDispatch();
-  const pending = useSelector(getPendingSelector);
-  const todos = useSelector(getTodosSelector);
-  const error = useSelector(getErrorSelector);
+  render(): React.ReactNode {
+    return (   
+      <BrowserRouter>
+        <Routes>
+          <Route path={'/'} element={<WeatherForecast />} />
+          <Route path={'/favorites'} element={ <Favorites />} />
+          <Route path={'/details'} element={<WeatherForecast />} />
+        </Routes>
+      </BrowserRouter>
+    )
+  }
+}
 
-  useEffect(() => {
-    dispatch(fetchTodoRequest());
-  }, []);
+function mapDispatchToProps (dispatch: any) {
+  return {
+    dispatch
+  }
+}
 
-  return (
-    <div style={{ padding: "15px" }}>
-      {pending ? (
-        <div>Loading...</div>
-      ) : error ? (
-        <div>Error</div>
-      ) : (
-        todos.map((todo, index) => (
-          <div style={{ marginBottom: "10px" }} key={todo.id}>
-            {++index}. {todo.title}
-          </div>
-        ))
-      )}
-    </div>
-  );
-};
+export default connect(
+  mapDispatchToProps
+)(App)
 
-export default App;
+// export default App;

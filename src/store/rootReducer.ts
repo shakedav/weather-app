@@ -1,9 +1,9 @@
 import { combineReducers } from "redux";
 
-import todoReducer from "./todo/reducer";
+import weatherReducer from "./weather/reducer";
 
 const rootReducer = combineReducers({
-  todo: todoReducer,
+  weather: weatherReducer,
 });
 
 export type AppState = ReturnType<typeof rootReducer>;
