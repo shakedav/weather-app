@@ -2,7 +2,7 @@ import { AxiosResponse } from "axios";
 import { call, put, takeEvery } from "redux-saga/effects";
 import { fetch5DaysForecast, fetchLocationKey, fetchLocationWeather } from "../../API";
 import { I5DaysForecast } from "../../interfaces/forecast.interface";
-import { ILocationMetaData } from "../../interfaces/location-meta-data.interface";
+import { ILocationData, ILocationMetaData } from "../../interfaces/location-meta-data.interface";
 import { ILocationWeather } from "../../interfaces/location-weather.interface";
 
 import { fetch5DaysForcastSuccess, fetchLocationCoordsSuccess, fetchLocationKeySuccess, fetchLocationWeatherSuccess } from "./actions";
@@ -15,10 +15,32 @@ interface IFetchType<T> {
   payload: T
 }
 
+function* fetchLocationKeySaga({payload}: any) {
+  try {
+    const response: AxiosResponse<ILocationMetaData> = yield call(fetchLocationKey, payload);
+    const data: ILocationData = {
+      name: response.data.EnglishName,
+      type: response.data.Type,
+      key: response.data.Key,
+      country: response.data.Country.EnglishName,
+    }
+    yield put(fetchLocationKeySuccess(data));
+  } catch(e: any) {
+    console.log(e);
+  }
+}
+
+function* fetchLocationCoordsSaga() {
+  const position: IGeoLocation = yield getUserLocation();
+  
+  const coords = {lon: position.coords.longitude, lat: position.coords.latitude};
+  yield put(fetchLocationCoordsSuccess(coords))
+}
+
 function* fetchLocationWeatherSaga({payload} :any) {
   try {
-    const response: AxiosResponse<ILocationWeather> = yield call(fetchLocationWeather, payload);
-    yield put(fetchLocationWeatherSuccess(response.data));
+    const response: AxiosResponse<ILocationWeather[]> = yield call(fetchLocationWeather, payload);
+    yield put(fetchLocationWeatherSuccess(response.data[0]));
   } catch (e: any) {
     console.log(e)
     // yield put(
@@ -41,22 +63,6 @@ function* fetch5DaysForecastSaga({payload} :any) {
     //   })
     // );
   }
-}
-
-function* fetchLocationKeySaga({payload}: any) {
-  try {
-    const response: AxiosResponse<ILocationMetaData> = yield call(fetchLocationKey, payload);
-    yield put(fetchLocationKeySuccess(response.data));
-  } catch(e: any) {
-    console.log(e);
-  }
-}
-
-function* fetchLocationCoordsSaga() {
-  const position: IGeoLocation = yield getUserLocation();
-  
-  const coords = {lon: position.coords.longitude, lat: position.coords.latitude};
-  yield put(fetchLocationCoordsSuccess(coords))
 }
 
 function* weatherSaga() {

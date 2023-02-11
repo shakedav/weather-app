@@ -1,3 +1,12 @@
+export interface ILocationData {
+    name: string;
+    type: string;
+    key: string;
+    country: string
+    // lat: number;
+    // lon: number;
+}
+
 import { UnitsData } from "./location-weather.interface";
 
 export interface locationName {

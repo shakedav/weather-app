@@ -1,3 +1,5 @@
+import { UnitsData } from "./location-weather.interface"
+
 export interface I5DaysForecast {
     Headline: Headline
     DailyForecasts: DailyForecast[]
@@ -19,43 +21,22 @@ export interface I5DaysForecast {
     Date: string
     EpochDate: number
     Temperature: Temperature
-    Day: Day
-    Night: Night
+    Day: WeatherData
+    Night: WeatherData
     Sources: string[]
     MobileLink: string
     Link: string
   }
   
   export interface Temperature {
-    Minimum: Minimum
-    Maximum: Maximum
+    Minimum: UnitsData
+    Maximum: UnitsData
   }
   
-  export interface Minimum {
-    Value: number
-    Unit: string
-    UnitType: number
-  }
-  
-  export interface Maximum {
-    Value: number
-    Unit: string
-    UnitType: number
-  }
-  
-  export interface Day {
+  export interface WeatherData {
     Icon: number
     IconPhrase: string
     HasPrecipitation: boolean
     PrecipitationType: string
     PrecipitationIntensity: string
   }
-  
-  export interface Night {
-    Icon: number
-    IconPhrase: string
-    HasPrecipitation: boolean
-    PrecipitationType: string
-    PrecipitationIntensity: string
-  }
-  

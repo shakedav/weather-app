@@ -1,26 +1,35 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { fetchLocationWeather } from "../API";
-import { fetch5DaysForcastRequest, fetchLocationWeatherRequest } from "../store/weather/actions";
+import { IsMetricContext } from "../App";
+import { ILocationData } from "../interfaces/location-meta-data.interface";
+import { fetch5DaysForcastRequest, fetchLocationKeySuccess, fetchLocationWeatherRequest } from "../store/weather/actions";
 
-export interface ISuggestion {
-    name: string;
-    key: number;
-}
+// export interface ISuggestion {
+//     name: string;
+//     key: string;
+//     country: string;
+// }
 
 export const SearchBox: React.FC = () => {
-    const [inputValue, setInputValue] = useState('');
-    const [suggestions, setSuggestions] = useState<ISuggestion[]>([]);
     const dispatch = useDispatch();
+    const [inputValue, setInputValue] = useState('');
+    const [suggestions, setSuggestions] = useState<ILocationData[]>([]);
+    const metricContext = useContext(IsMetricContext);
 
     useEffect(() => {
         if (inputValue.length >= 3) {
           fetch(`http://dataservice.accuweather.com/locations/v1/cities/autocomplete?q=${inputValue}&apikey=${process.env.REACT_APP_ACCCUEWEATHER_API_KEY}`)
             .then(res => res.json())
             .then(data => {
-                const suggestions: ISuggestion[] = data.map((suggestion: {AdministrativeArea: { LocalizedName: string }, Country: { LocalizedName: string }, LocalizedName: string, Key: number }) => {
-                    return {name: `${suggestion.Country.LocalizedName}-${suggestion.AdministrativeArea.LocalizedName}-${suggestion.LocalizedName}`, key: suggestion.Key
-                }})
+                const suggestions: ILocationData[] = data.map((suggestion: {AdministrativeArea: { LocalizedName: string }, Country: { LocalizedName: string }, LocalizedName: string, Key: number, Type: string }) => {
+                    return {
+                      name: `${suggestion.Country.LocalizedName}-${suggestion.AdministrativeArea.LocalizedName}-${suggestion.LocalizedName}`, 
+                      type: suggestion.Type,
+                      key: suggestion.Key, 
+                      country: suggestion.Country.LocalizedName
+                    }
+                  }
+                )
                 setSuggestions(suggestions)
             })
             .catch(error => console.error(error));
@@ -47,8 +56,9 @@ export const SearchBox: React.FC = () => {
             key={suggestion.key}
             onClick={() => {
                     setInputValue((suggestion.name))
-                    dispatch(fetch5DaysForcastRequest(suggestion.key));
+                    dispatch(fetchLocationKeySuccess(suggestion))
                     dispatch(fetchLocationWeatherRequest(suggestion.key));
+                    dispatch(fetch5DaysForcastRequest({locationKey: suggestion.key, isMetric: metricContext.isMetric}));
                 }
             }
           >

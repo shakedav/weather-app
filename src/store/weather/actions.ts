@@ -1,6 +1,6 @@
-import { IAutocompleteResult } from "../../interfaces/autocomplete.interface";
+import { I5DaysForeCastRequest } from "../../interfaces/five-days-forecast-request.interface";
 import { I5DaysForecast } from "../../interfaces/forecast.interface";
-import { ILocationMetaData } from "../../interfaces/location-meta-data.interface";
+import { ILocationData } from "../../interfaces/location-meta-data.interface";
 import { ILocationWeather } from "../../interfaces/location-weather.interface";
 import {
   FETCH_5_DAYS_FORECAST_REQUEST,
@@ -24,7 +24,7 @@ import { IPosition } from "./location.helper";
     Fetch5DaysForecastSuccess,
   } from "./types";
 
-  export const fetchLocationWeatherRequest = (payload: number): FetchLocationWeatherRequest => ({
+  export const fetchLocationWeatherRequest = (payload: string): FetchLocationWeatherRequest => ({
     type: FETCH_LOCATION_WEATHER_REQUEST,
     payload
   });
@@ -50,12 +50,12 @@ import { IPosition } from "./location.helper";
     payload
   })
 
-  export const fetchLocationKeySuccess = (payload: ILocationMetaData): FetchLocationKeySuccess => ({
+  export const fetchLocationKeySuccess = (payload: ILocationData): FetchLocationKeySuccess => ({
     type: FETCH_LOCATION_KEY_SUCCESS,
     payload
   })
 
-  export const fetch5DaysForcastRequest = (payload: number): Fetch5DaysForecastRequest => ({
+  export const fetch5DaysForcastRequest = (payload: I5DaysForeCastRequest): Fetch5DaysForecastRequest => ({
     type: FETCH_5_DAYS_FORECAST_REQUEST,
     payload
   });
@@ -64,15 +64,4 @@ import { IPosition } from "./location.helper";
     type: FETCH_5_DAYS_FORECAST_SUCCESS,
     payload
   });
-
-  // export const fetchAutoCompleteRequest = (payload: string): FetchAutoCompleteRequest => ({
-  //   type: FETCH_AUTO_COMPLETE_REQUEST,
-  //   payload
-  // });
-
-  // export const fetchAutoCompleteSuccess = (payload: IAutocompleteResult): FetchAutoCompleteSuccess => ({
-  //   type: FETCH_AUTO_COMPLETE_SUCCESS,
-  //   payload
-  // });
-
   

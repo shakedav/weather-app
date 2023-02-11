@@ -1,0 +1,28 @@
+.weather-menu {
+    height: 60px;
+    color: black;
+    background-color: aqua;
+    display: flex;
+    flex-direction: column;
+    justify-content:space-around;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+    font-size: large;
+}
+
+.units {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 10%;
+}
+
+.links-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 50%;
+}

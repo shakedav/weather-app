@@ -1,5 +1,6 @@
+import { I5DaysForeCastRequest } from "../../interfaces/five-days-forecast-request.interface";
 import { I5DaysForecast } from "../../interfaces/forecast.interface";
-import { ILocationMetaData } from "../../interfaces/location-meta-data.interface";
+import { ILocationData } from "../../interfaces/location-meta-data.interface";
 import { ILocationWeather } from "../../interfaces/location-weather.interface";
 import { FETCH_5_DAYS_FORECAST_REQUEST, FETCH_5_DAYS_FORECAST_SUCCESS, FETCH_LOCATION_COORDS_REQUEST, FETCH_LOCATION_COORDS_SUCCESS, FETCH_LOCATION_KEY_REQUEST, FETCH_LOCATION_KEY_SUCCESS, FETCH_LOCATION_WEATHER_REQUEST, FETCH_LOCATION_WEATHER_SUCCESS } from "./actionTypes";
 import { IPosition } from "./location.helper";
@@ -9,13 +10,13 @@ import { IPosition } from "./location.helper";
     locationWeather: ILocationWeather | null;
     location5DaysForecast: I5DaysForecast | null;
     currentLocationCoordinates: IPosition | null;
-    locationKey: ILocationMetaData | null;
+    locationKey: ILocationData | null;
     error: string | null;
   }
   
   export type FetchLocationWeatherRequest = {
     type: typeof FETCH_LOCATION_WEATHER_REQUEST;
-    payload: number
+    payload: string
   };
   
   export type FetchLocationWeatherSuccess = {
@@ -30,7 +31,7 @@ import { IPosition } from "./location.helper";
 
   export type FetchLocationKeySuccess = {
     type: typeof FETCH_LOCATION_KEY_SUCCESS;
-    payload: ILocationMetaData
+    payload: ILocationData
   }
 
   export type FetchLocationCoordsRequest = {
@@ -43,8 +44,8 @@ import { IPosition } from "./location.helper";
   }
 
   export type Fetch5DaysForecastRequest = {
-    type: typeof FETCH_5_DAYS_FORECAST_REQUEST
-    payload: number
+    type: typeof FETCH_5_DAYS_FORECAST_REQUEST;
+    payload: I5DaysForeCastRequest;
   }
 
   export type Fetch5DaysForecastSuccess = {
