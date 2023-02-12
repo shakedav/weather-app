@@ -11,6 +11,7 @@ import { WeatherCard } from "../weather-card/weather-card";
 import { StarSharp, StarOutlineSharp } from '@mui/icons-material';
 
 import './current-location-weather.css'
+import { getFavorites, updateFavorites } from "../../helpers/storage.helper";
 export interface ITemp {
     value?: number;
     units?: string;
@@ -48,27 +49,10 @@ export const CurrentLocationWeather: React.FC<ILocationProps> = ({locationData, 
         } else {
             setTemp({value: locationWeather?.Temperature.Imperial.Value, units: locationWeather?.Temperature.Imperial.Unit});
         }
-    },[locationWeather, metricContext])
-    
-    const getFavorites= () =>{ 
-        let favoritesList: ILocationData[] = [];
-        const listFromFavorites = localStorage.getItem('favorites');
-        if (listFromFavorites) {
-            favoritesList = JSON.parse(listFromFavorites);
-        }
-        return favoritesList;
-    }
+    },[locationWeather, metricContext])    
 
     const handleClick = () => {
-        console.log('saveToStorage')
-        let favoritesList: ILocationData[] = getFavorites();
-        const index = favoritesList.findIndex((item) => item.key === locationData?.key)
-        if ( index < 0) {
-            favoritesList.push(locationData);
-        } else {
-            favoritesList.splice(index, 1);
-        }
-        localStorage.setItem('favorites', JSON.stringify(favoritesList));
+        updateFavorites(locationData)
         setIsFavorite(!isFavorite);
     }
 
@@ -76,21 +60,21 @@ export const CurrentLocationWeather: React.FC<ILocationProps> = ({locationData, 
         <>
          <section className="current-location">
             <Card>
-                <CardContent className="container">
+                <CardContent className="current-location-container">
                     <section className="description">
                         <div className="location-title">
-                            <h2>{locationData?.country}</h2>
+                            <h2>{locationData.name}, {locationData?.country}</h2>
                             {
-                            !isFavorite && <StarOutlineSharp className="location"
+                            !isFavorite && <StarOutlineSharp fontSize="large" className="favorite-icon"
                                 onClick={handleClick} 
                                 ></StarOutlineSharp>
                             }
-                            {isFavorite && <StarSharp className="favorite" onClick={handleClick} ></StarSharp>}
+                            {isFavorite && <StarSharp fontSize="large" className="favorite-icon favorite" onClick={handleClick} ></StarSharp>}
                         </div> 
                         <div>{locationWeather && format(new Date(locationWeather.LocalObservationDateTime), 'dd/mm/yyyy HH:MM')}</div>
                     </section>
                     <section className="conditions">
-                        <img alt="weather-icon" className="icon" src={locationWeather?.WeatherIcon ? `${process.env.PUBLIC_URL}/assets/accueweather-icons/${locationWeather?.WeatherIcon && locationWeather?.WeatherIcon > 10 ? `${locationWeather?.WeatherIcon}-s` : `0${locationWeather?.WeatherIcon}-s`}.png` : ''} />
+                        <img alt="weather-icon" className="weather-icon" src={locationWeather?.WeatherIcon ? `${process.env.PUBLIC_URL}/assets/accueweather-icons/${locationWeather?.WeatherIcon && locationWeather?.WeatherIcon > 10 ? `${locationWeather?.WeatherIcon}-s` : `0${locationWeather?.WeatherIcon}-s`}.png` : ''} />
                         <div className="right-side">
                             <h2 className="degrees">{`${temp.value} °${temp.units}`}</h2>
                             <div>{locationWeather?.WeatherText}</div>

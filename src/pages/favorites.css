@@ -1,0 +1,15 @@
+.favorites-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: -20px 0 0 0;
+}
+
+.favorites-list > * {
+    margin-top: 20px;
+}
+
+.favorite-container {
+    max-width: 200px;
+    width: 100%;
+}

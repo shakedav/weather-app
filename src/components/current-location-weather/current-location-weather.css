@@ -20,7 +20,7 @@
     margin: 10px 10px;
 }
 
-.container {
+.current-location-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
@@ -35,13 +35,16 @@
     flex-direction: column;
 }
 
-.icon {
+.weather-icon {
     width: 40%;
 }
 
 .favorite {
-    color: #FFEA00
+    color: #FFEA00;
+}
 
+.favorite-icon {
+    cursor: pointer;
 }
 
 .location-title {
