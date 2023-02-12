@@ -7,7 +7,7 @@ import { IPosition } from "../store/weather/location.helper";
 
 export function fetchLocationWeather(locationKey: string): any {
 // Promise<AxiosResponse<ILocationWeather>> {
-    return {data: [{"LocalObservationDateTime":"2023-02-10T17:33:00+02:00","EpochTime":1676043180,"WeatherText":"Clear","WeatherIcon":33,"HasPrecipitation":false,"PrecipitationType":null,"IsDayTime":false,"Temperature":{"Metric":{"Value":15.4,"Unit":"C","UnitType":17},"Imperial":{"Value":60.0,"Unit":"F","UnitType":18}},"MobileLink":"http://www.accuweather.com/en/il/tel-aviv/215854/current-weather/215854?lang=en-us","Link":"http://www.accuweather.com/en/il/tel-aviv/215854/current-weather/215854?lang=en-us"}]};
+    return {data: [{"LocalObservationDateTime":"2023-02-10T17:33:00+02:00","EpochTime":1676043180,"WeatherText":"Clear","WeatherIcon": 33,"HasPrecipitation":false,"PrecipitationType":null,"IsDayTime":false,"Temperature":{"Metric":{"Value":15.4,"Unit":"C","UnitType":17},"Imperial":{"Value":60.0,"Unit":"F","UnitType":18}},"MobileLink":"http://www.accuweather.com/en/il/tel-aviv/215854/current-weather/215854?lang=en-us","Link":"http://www.accuweather.com/en/il/tel-aviv/215854/current-weather/215854?lang=en-us"}]};
     
     // return axios.get(`http://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${process.env.REACT_APP_ACCCUEWEATHER_API_KEY}`)
 } 

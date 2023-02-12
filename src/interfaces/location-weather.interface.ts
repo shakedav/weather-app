@@ -10,7 +10,7 @@ export interface Temperature {
 }
 
 export interface ILocationWeather {
-    LocalObservationDateTime: Date;
+    LocalObservationDateTime: string;
     EpochTime: number;
     WeatherText: string;
     WeatherIcon: number;

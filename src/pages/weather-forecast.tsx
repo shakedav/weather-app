@@ -3,7 +3,7 @@ import { useSelector } from "react-redux"
 import { useDispatch } from "react-redux"
 import { IsMetricContext } from "../App"
 import { CurrentLocationWeather } from "../components/current-location-weather/current-location-weather"
-import { SearchBox } from "../components/search-box"
+import { SearchBox } from "../components/search-box/search-box"
 import { fetchLocationKeyRequest, fetchLocationWeatherRequest } from "../store/weather/actions"
 import { IPosition } from "../store/weather/location.helper"
 import { getCurrentLocationCoordinatesSelector, getLocationDataSelector, getLocationWeatherSelector } from "../store/weather/selectors"
@@ -29,9 +29,8 @@ export const WeatherForecast: React.FC = () => {
 
     return (
         <>
-        <div>I am weather details</div>
         <SearchBox/>
-        <CurrentLocationWeather locationWeather={locationWeather} locationData = {locationData}/>
+        {locationWeather && locationData && <CurrentLocationWeather locationWeather={locationWeather} locationData = {locationData}/>}
         </>
     )
 }

@@ -1,10 +1,10 @@
-import React, { Component, createContext, Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, { createContext, Dispatch, SetStateAction, useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { WeatherForecast } from "./pages/weather-forecast";
 import { Favorites } from "./pages/favorites";
 import { fetchLocationCoordsRequest } from "./store/weather/actions";
-import { connect } from "react-redux";
 import { Header } from "./components/header/header";
+import { useDispatch } from "react-redux";
 
 export interface IsMetricContextProps {
   isMetric: boolean;
@@ -20,10 +20,11 @@ export const IsMetricContext = createContext<IsMetricContextProps>({
 
 export const App: React.FC = (props: any) => {
   const [isMetric, setIsMetric] = useState(true);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    props.dispatch(fetchLocationCoordsRequest());
-  }, []);
+    dispatch(fetchLocationCoordsRequest());
+  }, [dispatch, props]);
 
     return (   
       <div>
@@ -41,12 +42,4 @@ export const App: React.FC = (props: any) => {
     )
   }
 
-function mapDispatchToProps (dispatch: any) {
-  return {
-    dispatch
-  }
-}
-
-export default connect(
-  mapDispatchToProps
-)(App)
+export default App;
