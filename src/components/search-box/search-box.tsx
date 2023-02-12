@@ -13,7 +13,8 @@ export const SearchBox: React.FC = () => {
     const [inputValue, setInputValue] = useState('');
     const [suggestions, setSuggestions] = useState<ILocationData[]>([]);
     const metricContext = useContext(IsMetricContext);
-    
+    const ALPHA_NUMERIC_DASH_REGEX = /^[a-zA-Z]+$/;
+
     useEffect(() => {
         if (inputValue && inputValue.length >= 3) {
           const fetchData = async () => {
@@ -60,7 +61,12 @@ export const SearchBox: React.FC = () => {
           id="combo-box-demo"
           options={suggestions}
           getOptionLabel={(option) => option.name}
-          onInputChange={(event, value) => setInputValue(value)}
+          onInputChange={(event, value) => {
+            if (!ALPHA_NUMERIC_DASH_REGEX.test(value)) {              
+              return;
+            }
+            setInputValue(value)
+          }}
           renderInput={(suggestions) => <TextField variant="outlined" {...suggestions} label="search location"/>}
           onChange={(event, value) => onLocationSelected(value)}
         />
