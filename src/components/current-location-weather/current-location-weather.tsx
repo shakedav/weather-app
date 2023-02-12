@@ -6,7 +6,7 @@ import { IsMetricContext } from "../../App";
 import { ILocationData } from "../../interfaces/location-meta-data.interface";
 import { ILocationWeather } from "../../interfaces/location-weather.interface";
 import { fetch5DaysForcastRequest } from "../../store/weather/actions";
-import { get5DaysForecastSelector } from "../../store/weather/selectors";
+import { get5DaysForecastSelector, getIsLocation5DaysForecastPendingSelector } from "../../store/weather/selectors";
 import { WeatherCard } from "../weather-card/weather-card";
 import { StarSharp, StarOutlineSharp } from '@mui/icons-material';
 
@@ -28,6 +28,7 @@ export const CurrentLocationWeather: React.FC<ILocationProps> = ({locationData, 
     const [temp, setTemp] = useState<ITemp>({});
     const [isFavorite, setIsFavorite] = useState(false);
     const fiveDaysForecast = useSelector(get5DaysForecastSelector)
+    const isLocation5DaysForecastPending = useSelector(getIsLocation5DaysForecastPendingSelector);
 
     useEffect(() => {    
         const favorites = getFavorites();
@@ -38,10 +39,10 @@ export const CurrentLocationWeather: React.FC<ILocationProps> = ({locationData, 
     }, [locationData.key]);
 
     useEffect(() => {    
-        if (locationData) {    
+        if (!isLocation5DaysForecastPending && locationData && !fiveDaysForecast) {    
             dispatch(fetch5DaysForcastRequest({locationKey: locationData?.key!, isMetric: metricContext.isMetric}))
         }
-    },[dispatch, locationData, locationWeather, metricContext.isMetric])
+    },[dispatch, locationData, locationWeather, metricContext.isMetric, isLocation5DaysForecastPending, fiveDaysForecast])
 
     useEffect(() => {
         if (metricContext.isMetric) {

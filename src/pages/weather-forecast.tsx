@@ -1,12 +1,13 @@
 import { useContext, useEffect,  } from "react"
 import { useSelector } from "react-redux"
 import { useDispatch } from "react-redux"
+import { useParams } from "react-router-dom"
 import { IsMetricContext } from "../App"
 import { CurrentLocationWeather } from "../components/current-location-weather/current-location-weather"
 import { SearchBox } from "../components/search-box/search-box"
-import { fetchLocationKeyRequest, fetchLocationWeatherRequest } from "../store/weather/actions"
+import { fetchLocationDataRequest, fetchLocationWeatherRequest } from "../store/weather/actions"
 import { IPosition } from "../store/weather/location.helper"
-import { getCurrentLocationCoordinatesSelector, getLocationDataSelector, getLocationWeatherSelector } from "../store/weather/selectors"
+import { getCurrentLocationCoordinatesSelector, getIsCurrentLocationCoordinatesPendingSelector, getIsLocationDataPendingSelector, getLocationDataSelector, getLocationWeatherSelector, getIsLocationWeatherPendingSelector } from "../store/weather/selectors"
 
 export const WeatherForecast: React.FC = () => {
     const dispatch = useDispatch()
@@ -14,18 +15,29 @@ export const WeatherForecast: React.FC = () => {
     const locationData = useSelector(getLocationDataSelector)
     const currentLocationCoords = useSelector(getCurrentLocationCoordinatesSelector)
     const metricContext = useContext(IsMetricContext);
+    const { locationKey } = useParams();
+    const isCoordsPending = useSelector(getIsCurrentLocationCoordinatesPendingSelector);
+    const isLocationDataPending = useSelector(getIsLocationDataPendingSelector);
+    const isLocationWeatherPending = useSelector(getIsLocationWeatherPendingSelector);
 
+    
     useEffect(() => {
-        if (currentLocationCoords) {
-            dispatch(fetchLocationKeyRequest(currentLocationCoords as IPosition));
+        if (!isCoordsPending && !isLocationDataPending && currentLocationCoords && !locationData) {
+            dispatch(fetchLocationDataRequest(currentLocationCoords as IPosition));
         }
-    }, [dispatch, currentLocationCoords])
+    }, [isCoordsPending, isLocationDataPending, currentLocationCoords, dispatch, locationData, locationKey])
+
+    useEffect(() => {        
+        if (!locationWeather && !isLocationWeatherPending && locationKey) {
+            dispatch(fetchLocationWeatherRequest(locationKey))
+        }
+    }, [locationKey, dispatch, isLocationWeatherPending, locationWeather])
 
     useEffect(() => {       
-        if (locationData) { 
+        if (!locationWeather && locationData && !isLocationWeatherPending) { 
             dispatch(fetchLocationWeatherRequest(locationData?.key!))
         }
-    },[dispatch, locationData, metricContext.isMetric])
+    },[isLocationWeatherPending, locationWeather, dispatch, locationData, metricContext.isMetric, locationKey])
 
     return (
         <>

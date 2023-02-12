@@ -2,15 +2,19 @@ import { I5DaysForeCastRequest } from "../../interfaces/five-days-forecast-reque
 import { I5DaysForecast } from "../../interfaces/forecast.interface";
 import { ILocationData } from "../../interfaces/location-meta-data.interface";
 import { ILocationWeather } from "../../interfaces/location-weather.interface";
-import { FETCH_5_DAYS_FORECAST_REQUEST, FETCH_5_DAYS_FORECAST_SUCCESS, FETCH_LOCATION_COORDS_REQUEST, FETCH_LOCATION_COORDS_SUCCESS, FETCH_LOCATION_KEY_REQUEST, FETCH_LOCATION_KEY_SUCCESS, FETCH_LOCATION_WEATHER_REQUEST, FETCH_LOCATION_WEATHER_SUCCESS } from "./actionTypes";
+import { FETCH_5_DAYS_FORECAST_REQUEST, FETCH_5_DAYS_FORECAST_SUCCESS, FETCH_LOCATION_COORDS_REQUEST, FETCH_LOCATION_COORDS_SUCCESS, FETCH_LOCATION_DATA_REQUEST, FETCH_LOCATION_DATA_SUCCESS, FETCH_LOCATION_WEATHER_REQUEST, FETCH_LOCATION_WEATHER_SUCCESS } from "./actionTypes";
 import { IPosition } from "./location.helper";
   
   
   export interface WeatherState {
     locationWeather: ILocationWeather | null;
+    isLocationWeatherPending: boolean;
     location5DaysForecast: I5DaysForecast | null;
+    isLocation5DaysForecastPending: boolean;
     currentLocationCoordinates: IPosition | null;
-    locationKey: ILocationData | null;
+    isCurrentLocationCoordinatesPending: boolean;
+    locationData: ILocationData | null;
+    isLocationDataPending: boolean;
     error: string | null;
   }
   
@@ -24,13 +28,13 @@ import { IPosition } from "./location.helper";
     payload: ILocationWeather;
   };
 
-  export type FetchLocationKeyRequest = {
-    type: typeof FETCH_LOCATION_KEY_REQUEST;
+  export type FetchLocationDataRequest = {
+    type: typeof FETCH_LOCATION_DATA_REQUEST;
     payload: IPosition
   }
 
   export type FetchLocationKeySuccess = {
-    type: typeof FETCH_LOCATION_KEY_SUCCESS;
+    type: typeof FETCH_LOCATION_DATA_SUCCESS;
     payload: ILocationData
   }
 
@@ -56,7 +60,7 @@ import { IPosition } from "./location.helper";
   export type WeatherActions =
     | FetchLocationWeatherRequest
     | FetchLocationWeatherSuccess
-    | FetchLocationKeyRequest
+    | FetchLocationDataRequest
     | FetchLocationKeySuccess
     | FetchLocationCoordsRequest
     | FetchLocationCoordsSuccess

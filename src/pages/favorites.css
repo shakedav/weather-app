@@ -13,3 +13,9 @@
     max-width: 200px;
     width: 100%;
 }
+
+.favorite-degrees {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}

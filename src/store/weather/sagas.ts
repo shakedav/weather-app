@@ -1,38 +1,37 @@
 import { AxiosResponse } from "axios";
-import { call, put, takeEvery } from "redux-saga/effects";
-import { fetch5DaysForecast, fetchLocationKey, fetchLocationWeather } from "../../API";
+import { call, put, takeLatest } from "redux-saga/effects";
+import { fetch5DaysForecast, fetchLocationData, fetchLocationWeather } from "../../API";
 import { I5DaysForecast } from "../../interfaces/forecast.interface";
 import { ILocationData, ILocationMetaData } from "../../interfaces/location-meta-data.interface";
 import { ILocationWeather } from "../../interfaces/location-weather.interface";
 
-import { fetch5DaysForcastSuccess, fetchLocationCoordsSuccess, fetchLocationKeySuccess, fetchLocationWeatherSuccess } from "./actions";
-import { FETCH_5_DAYS_FORECAST_REQUEST, FETCH_LOCATION_COORDS_REQUEST, FETCH_LOCATION_KEY_REQUEST, FETCH_LOCATION_WEATHER_REQUEST } from "./actionTypes";
+import { fetch5DaysForcastSuccess, fetchLocationCoordsSuccess, fetchLocationDataSuccess, fetchLocationWeatherSuccess } from "./actions";
+import { FETCH_5_DAYS_FORECAST_REQUEST, FETCH_LOCATION_COORDS_REQUEST, FETCH_LOCATION_DATA_REQUEST, FETCH_LOCATION_WEATHER_REQUEST } from "./actionTypes";
 import { getUserLocation, IGeoLocation } from "./location.helper";
-import { FetchLocationWeatherRequest, FetchLocationKeyRequest, FetchLocationCoordsSuccess, Fetch5DaysForecastRequest } from './types';
+import { FetchLocationWeatherRequest, FetchLocationDataRequest, FetchLocationCoordsSuccess, Fetch5DaysForecastRequest } from './types';
 
 interface IFetchType<T> {
   type: string;
   payload: T
 }
 
-function* fetchLocationKeySaga({payload}: any) {
+function* fetchLocationDataSaga({payload}: any) {
   try {
-    const response: AxiosResponse<ILocationMetaData> = yield call(fetchLocationKey, payload);
+    const response: AxiosResponse<ILocationMetaData> = yield call(fetchLocationData, payload);
     const data: ILocationData = {
       name: response.data.EnglishName,
       type: response.data.Type,
       key: response.data.Key,
       country: response.data.Country.EnglishName,
     }
-    yield put(fetchLocationKeySuccess(data));
+    yield put(fetchLocationDataSuccess(data));
   } catch(e: any) {
     console.log(e);
   }
 }
 
 function* fetchLocationCoordsSaga() {
-  const position: IGeoLocation = yield getUserLocation();
-  
+  const position: IGeoLocation = yield getUserLocation();  
   const coords = {lon: position.coords.longitude, lat: position.coords.latitude};
   yield put(fetchLocationCoordsSuccess(coords))
 }
@@ -66,10 +65,10 @@ function* fetch5DaysForecastSaga({payload} :any) {
 }
 
 function* weatherSaga() {
-  yield takeEvery<IFetchType<FetchLocationWeatherRequest>>(FETCH_LOCATION_WEATHER_REQUEST, fetchLocationWeatherSaga);
-  yield takeEvery<IFetchType<Fetch5DaysForecastRequest>>(FETCH_5_DAYS_FORECAST_REQUEST, fetch5DaysForecastSaga);  
-  yield takeEvery<IFetchType<FetchLocationKeyRequest>>(FETCH_LOCATION_KEY_REQUEST, fetchLocationKeySaga);
-  yield takeEvery<IFetchType<FetchLocationCoordsSuccess>>(FETCH_LOCATION_COORDS_REQUEST, fetchLocationCoordsSaga);
+  yield takeLatest<IFetchType<FetchLocationWeatherRequest>>(FETCH_LOCATION_WEATHER_REQUEST, fetchLocationWeatherSaga);
+  yield takeLatest<IFetchType<Fetch5DaysForecastRequest>>(FETCH_5_DAYS_FORECAST_REQUEST, fetch5DaysForecastSaga);  
+  yield takeLatest<IFetchType<FetchLocationDataRequest>>(FETCH_LOCATION_DATA_REQUEST, fetchLocationDataSaga);
+  yield takeLatest<IFetchType<FetchLocationCoordsSuccess>>(FETCH_LOCATION_COORDS_REQUEST, fetchLocationCoordsSaga);
 }
 
 export default weatherSaga;

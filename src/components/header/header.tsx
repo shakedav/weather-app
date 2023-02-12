@@ -15,8 +15,8 @@ export const Header: React.FC = () => {
                 <span className="title">Shaked's weather app</span>
                 <div className='links'>
                     <div className="links-wrapper">
-                        <Link {...{to: "/details"}}>Weather forecast</Link>
-                        <Link {...{to: "/favorites"}}>Favorites </Link>
+                        <Link {...{to: "/weather-app/details"}}>Weather forecast</Link>
+                        <Link {...{to: "/weather-app/favorites"}}>Favorites </Link>
                     </div>
                 </div>
                 <div className="units">
