@@ -47,8 +47,9 @@ export const Favorites: React.FC = () => {
         }
         return `${weather.Temperature.Imperial.Value} °${weather.Temperature.Imperial.Unit}`
     }
-    const handleClick = (locationData: ILocationData) => {
-        setFavorites(updateFavorites(locationData))        
+    const handleClick = (event: MouseEvent, locationData: ILocationData) => {
+        setFavorites(updateFavorites(locationData))   
+        event.stopPropagation()     
     }
 
     const navigateToWeather = (favorite: IFavoriteWithWeather) => {
@@ -73,7 +74,7 @@ export const Favorites: React.FC = () => {
                                 <section className="favorite-description">
                                     <div className="location-title">
                                         <h2>{favorite.name}, {favorite?.country}</h2>
-                                        <StarSharp fontSize="large" className="favorite-icon favorite" onClick={() => handleClick(favorite)} ></StarSharp>
+                                        <StarSharp fontSize="large" className="favorite-icon favorite" onClick={(event: any) => handleClick(event, favorite)} ></StarSharp>
                                     </div> 
                                 </section>
                                 <section>

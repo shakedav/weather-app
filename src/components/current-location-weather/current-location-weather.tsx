@@ -25,6 +25,7 @@ interface ILocationProps {
 export const CurrentLocationWeather: React.FC<ILocationProps> = ({locationData, locationWeather} )=> {
     const dispatch = useDispatch()
     const metricContext = useContext(IsMetricContext);
+    const [metricContextState, setMetricContextState] = useState(metricContext)
     const [temp, setTemp] = useState<ITemp>({});
     const [isFavorite, setIsFavorite] = useState(false);
     const fiveDaysForecast = useSelector(get5DaysForecastSelector)
@@ -34,15 +35,19 @@ export const CurrentLocationWeather: React.FC<ILocationProps> = ({locationData, 
         const favorites = getFavorites();
         if (favorites.findIndex(item => item.key === locationData.key) !== -1) {
             setIsFavorite(true);
+        } else {
+            setIsFavorite(false)
         }
 
     }, [locationData.key]);
 
     useEffect(() => {    
-        if (!isLocation5DaysForecastPending && locationData && !fiveDaysForecast) {    
-            dispatch(fetch5DaysForcastRequest({locationKey: locationData?.key!, isMetric: metricContext.isMetric}))
+        if (!isLocation5DaysForecastPending && locationData && (!fiveDaysForecast || 
+            metricContextState.isMetric !== metricContext.isMetric)) {  
+                setMetricContextState(metricContext)  
+                dispatch(fetch5DaysForcastRequest({locationKey: locationData?.key!, isMetric: metricContext.isMetric}))
         }
-    },[dispatch, locationData, locationWeather, metricContext.isMetric, isLocation5DaysForecastPending, fiveDaysForecast])
+    },[dispatch, locationData, locationWeather, isLocation5DaysForecastPending, fiveDaysForecast, metricContextState.isMetric, metricContext])
 
     useEffect(() => {
         if (metricContext.isMetric) {

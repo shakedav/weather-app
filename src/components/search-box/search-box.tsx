@@ -19,7 +19,7 @@ export const SearchBox: React.FC = () => {
         if (inputValue && inputValue.length >= 3) {
           const fetchData = async () => {
             // const data = autoCompleteData;
-            await fetch(`http://dataservice.accuweather.com/locations/v1/cities/autocomplete?q=${inputValue}&apikey=${process.env.REACT_APP_ACCCUEWEATHER_API_KEY}`)
+            await fetch(`https://dataservice.accuweather.com/locations/v1/cities/autocomplete?q=${inputValue}&apikey=${process.env.REACT_APP_ACCCUEWEATHER_API_KEY}`)
                           .then(res => res.json())
               .then(data => {
                 const suggestions: ILocationData[] = data.map((suggestion: {AdministrativeArea: { LocalizedName: string }, Country: { LocalizedName: string }, LocalizedName: string, Key: number, Type: string }) => {

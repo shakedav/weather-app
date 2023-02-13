@@ -1,8 +1,9 @@
 .fiveDaysForecast {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin: 10px 10px;
+    display: grid;
+    grid-gap: 15px;
+    grid-template-columns: repeat(auto-fill, 202px);
+    justify-content: space-around;
+    margin: 0px 8px;
 }
 
 .title {
