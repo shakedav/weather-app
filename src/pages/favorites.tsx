@@ -8,7 +8,7 @@ import { IsMetricContext } from "../App";
 import { getFavorites, updateFavorites } from "../helpers/storage.helper";
 import { ILocationData } from "../interfaces/location-meta-data.interface";
 import { ILocationWeather } from "../interfaces/location-weather.interface";
-import { fetchLocationDataSuccess, fetchLocationWeatherRequest, fetch5DaysForcastRequest } from "../store/weather/actions";
+import { fetchLocationDataSuccess, fetchLocationWeatherRequest, fetch5DaysForcastRequest, fetchRequestFailed } from "../store/weather/actions";
 
 import './favorites.css'
 
@@ -28,7 +28,13 @@ export const Favorites: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        const promises = favorites.map(favorite => fetchLocationWeather(favorite.key));
+        let promises: any[] = [];
+        promises = favorites.map(favorite => {
+            return fetchLocationWeather(favorite.key).catch((e: any)  => {
+                dispatch(fetchRequestFailed(e.message));
+            })
+        });
+        
         Promise.all(promises)
         .then(results => {
             return favorites.map((favorite, index) => ({
@@ -39,7 +45,7 @@ export const Favorites: React.FC = () => {
         .then(favoritesWithWeather => {
             setFavoritesWithWeather(favoritesWithWeather);
         });
-    }, [favorites])
+    }, [dispatch, favorites])
     
     const getTemprature = (weather: ILocationWeather) => {
         if (metricContext.isMetric) {

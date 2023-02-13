@@ -5,7 +5,7 @@ import { I5DaysForecast } from "../../interfaces/forecast.interface";
 import { ILocationData, ILocationMetaData } from "../../interfaces/location-meta-data.interface";
 import { ILocationWeather } from "../../interfaces/location-weather.interface";
 
-import { fetch5DaysForcastSuccess, fetchLocationCoordsSuccess, fetchLocationDataSuccess, fetchLocationWeatherSuccess } from "./actions";
+import { fetch5DaysForcastSuccess, fetchLocationCoordsSuccess, fetchLocationDataSuccess, fetchLocationWeatherSuccess, fetchRequestFailed } from "./actions";
 import { FETCH_5_DAYS_FORECAST_REQUEST, FETCH_LOCATION_COORDS_REQUEST, FETCH_LOCATION_DATA_REQUEST, FETCH_LOCATION_WEATHER_REQUEST } from "./actionTypes";
 import { getUserLocation, IGeoLocation } from "./location.helper";
 import { FetchLocationWeatherRequest, FetchLocationDataRequest, FetchLocationCoordsSuccess, Fetch5DaysForecastRequest } from './types';
@@ -25,15 +25,21 @@ function* fetchLocationDataSaga({payload}: any) {
       country: response.data.Country.EnglishName,
     }
     yield put(fetchLocationDataSuccess(data));
-  } catch(e: any) {
-    console.log(e);
+  } catch (e: any) {
+    yield put(fetchRequestFailed(e.message)
+    );
   }
 }
 
 function* fetchLocationCoordsSaga() {
-  const position: IGeoLocation = yield getUserLocation();  
-  const coords = {lon: position.coords.longitude, lat: position.coords.latitude};
-  yield put(fetchLocationCoordsSuccess(coords))
+  try {
+    const position: IGeoLocation = yield getUserLocation();  
+    const coords = {lon: position.coords.longitude, lat: position.coords.latitude};
+    yield put(fetchLocationCoordsSuccess(coords))
+  } catch (e: any) {
+    yield put(fetchRequestFailed(e.message)
+    );
+  }
 }
 
 function* fetchLocationWeatherSaga({payload} :any) {
@@ -41,12 +47,8 @@ function* fetchLocationWeatherSaga({payload} :any) {
     const response: AxiosResponse<ILocationWeather[]> = yield call(fetchLocationWeather, payload);
     yield put(fetchLocationWeatherSuccess(response.data[0]));
   } catch (e: any) {
-    console.log(e)
-    // yield put(
-    //   fetchTodoFailure({
-    //     error: e.message,
-    //   })
-    // );
+    yield put(fetchRequestFailed(e.message)
+    );
   }
 }
 
@@ -55,12 +57,8 @@ function* fetch5DaysForecastSaga({payload} :any) {
     const response: AxiosResponse<I5DaysForecast> = yield call(fetch5DaysForecast, payload);
     yield put(fetch5DaysForcastSuccess(response.data));
   } catch (e: any) {
-    console.log(e)
-    // yield put(
-    //   fetchTodoFailure({
-    //     error: e.message,
-    //   })
-    // );
+    yield put(fetchRequestFailed(e.message)
+    );
   }
 }
 

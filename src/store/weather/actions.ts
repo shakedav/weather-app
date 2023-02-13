@@ -10,7 +10,9 @@ import {
   FETCH_LOCATION_DATA_REQUEST,
   FETCH_LOCATION_DATA_SUCCESS,
     FETCH_LOCATION_WEATHER_REQUEST,
-    FETCH_LOCATION_WEATHER_SUCCESS
+    FETCH_LOCATION_WEATHER_SUCCESS,
+    FETCH_REQUEST_FAILED,
+    RESET_ERROR_REQUEST
   } from "./actionTypes";
 import { IPosition } from "./location.helper";
   import {
@@ -22,6 +24,7 @@ import { IPosition } from "./location.helper";
     FetchLocationCoordsRequest,
     Fetch5DaysForecastRequest,
     Fetch5DaysForecastSuccess,
+    FetchRequestFailed,
   } from "./types";
 
   export const fetchLocationWeatherRequest = (payload: string): FetchLocationWeatherRequest => ({
@@ -63,5 +66,14 @@ import { IPosition } from "./location.helper";
   export const fetch5DaysForcastSuccess = (payload: I5DaysForecast): Fetch5DaysForecastSuccess => ({
     type: FETCH_5_DAYS_FORECAST_SUCCESS,
     payload
+  });
+
+  export const fetchRequestFailed = (payload: string): FetchRequestFailed => ({
+    type: FETCH_REQUEST_FAILED,
+    payload
+  });
+
+  export const resetErrorRequest = () => ({
+    type: RESET_ERROR_REQUEST,
   });
   

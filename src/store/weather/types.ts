@@ -1,8 +1,9 @@
+import { IErrorMessage } from "../../interfaces/error.interface";
 import { I5DaysForeCastRequest } from "../../interfaces/five-days-forecast-request.interface";
 import { I5DaysForecast } from "../../interfaces/forecast.interface";
 import { ILocationData } from "../../interfaces/location-meta-data.interface";
 import { ILocationWeather } from "../../interfaces/location-weather.interface";
-import { FETCH_5_DAYS_FORECAST_REQUEST, FETCH_5_DAYS_FORECAST_SUCCESS, FETCH_LOCATION_COORDS_REQUEST, FETCH_LOCATION_COORDS_SUCCESS, FETCH_LOCATION_DATA_REQUEST, FETCH_LOCATION_DATA_SUCCESS, FETCH_LOCATION_WEATHER_REQUEST, FETCH_LOCATION_WEATHER_SUCCESS } from "./actionTypes";
+import { FETCH_5_DAYS_FORECAST_REQUEST, FETCH_5_DAYS_FORECAST_SUCCESS, FETCH_LOCATION_COORDS_REQUEST, FETCH_LOCATION_COORDS_SUCCESS, FETCH_LOCATION_DATA_REQUEST, FETCH_LOCATION_DATA_SUCCESS, FETCH_LOCATION_WEATHER_REQUEST, FETCH_LOCATION_WEATHER_SUCCESS, FETCH_REQUEST_FAILED, RESET_ERROR_REQUEST } from "./actionTypes";
 import { IPosition } from "./location.helper";
   
   
@@ -57,6 +58,15 @@ import { IPosition } from "./location.helper";
     payload: I5DaysForecast
   }
 
+  export type FetchRequestFailed = {
+    type: typeof FETCH_REQUEST_FAILED;
+    payload: string
+  }
+
+  export type ResetErrorRequest = {
+    type: typeof RESET_ERROR_REQUEST;
+  }
+
   export type WeatherActions =
     | FetchLocationWeatherRequest
     | FetchLocationWeatherSuccess
@@ -66,3 +76,5 @@ import { IPosition } from "./location.helper";
     | FetchLocationCoordsSuccess
     | Fetch5DaysForecastRequest
     | Fetch5DaysForecastSuccess
+    | FetchRequestFailed
+    | ResetErrorRequest

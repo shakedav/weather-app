@@ -7,7 +7,7 @@ import { CurrentLocationWeather } from "../components/current-location-weather/c
 import { SearchBox } from "../components/search-box/search-box"
 import { fetchLocationDataRequest, fetchLocationWeatherRequest } from "../store/weather/actions"
 import { IPosition } from "../store/weather/location.helper"
-import { getCurrentLocationCoordinatesSelector, getIsCurrentLocationCoordinatesPendingSelector, getIsLocationDataPendingSelector, getLocationDataSelector, getLocationWeatherSelector, getIsLocationWeatherPendingSelector } from "../store/weather/selectors"
+import { getCurrentLocationCoordinatesSelector, getIsCurrentLocationCoordinatesPendingSelector, getIsLocationDataPendingSelector, getLocationDataSelector, getLocationWeatherSelector, getIsLocationWeatherPendingSelector, getErrorSelector } from "../store/weather/selectors"
 
 export const WeatherForecast: React.FC = () => {
     const dispatch = useDispatch()
@@ -19,25 +19,26 @@ export const WeatherForecast: React.FC = () => {
     const isCoordsPending = useSelector(getIsCurrentLocationCoordinatesPendingSelector);
     const isLocationDataPending = useSelector(getIsLocationDataPendingSelector);
     const isLocationWeatherPending = useSelector(getIsLocationWeatherPendingSelector);
+    const error = useSelector(getErrorSelector);
 
     
     useEffect(() => {
-        if (!isCoordsPending && !isLocationDataPending && currentLocationCoords && !locationData) {
+        if (!error && !isCoordsPending && !isLocationDataPending && currentLocationCoords && !locationData) {
             dispatch(fetchLocationDataRequest(currentLocationCoords as IPosition));
         }
-    }, [isCoordsPending, isLocationDataPending, currentLocationCoords, dispatch, locationData, locationKey])
+    }, [isCoordsPending, isLocationDataPending, currentLocationCoords, dispatch, locationData, locationKey, error])
 
     useEffect(() => {        
-        if (!locationWeather && !isLocationWeatherPending && locationKey) {
+        if (!error && !locationWeather && !isLocationWeatherPending && locationKey) {
             dispatch(fetchLocationWeatherRequest(locationKey))
         }
-    }, [locationKey, dispatch, isLocationWeatherPending, locationWeather])
+    }, [locationKey, dispatch, isLocationWeatherPending, locationWeather, error])
 
     useEffect(() => {       
-        if (!locationWeather && locationData && !isLocationWeatherPending) { 
+        if (!error && !locationWeather && locationData && !isLocationWeatherPending) { 
             dispatch(fetchLocationWeatherRequest(locationData?.key!))
         }
-    },[isLocationWeatherPending, locationWeather, dispatch, locationData, metricContext.isMetric, locationKey])
+    },[isLocationWeatherPending, locationWeather, dispatch, locationData, metricContext.isMetric, locationKey, error])
 
     return (
         <>

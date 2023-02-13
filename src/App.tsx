@@ -7,6 +7,7 @@ import { Header } from "./components/header/header";
 import { useDispatch, useSelector } from "react-redux";
 import { ErrorBoundary } from "./components/errors/error-boundary";
 import { getCurrentLocationCoordinatesSelector, getIsCurrentLocationCoordinatesPendingSelector } from "./store/weather/selectors";
+import ErrorModal from "./components/errors/error-modal";
 
 export interface IsMetricContextProps {
   isMetric: boolean;
@@ -47,6 +48,7 @@ export const App: React.FC = (props: any) => {
           </Routes>
         </BrowserRouter>
         </IsMetricContext.Provider>
+        <ErrorModal />
         </ErrorBoundary>
       </div>
     )

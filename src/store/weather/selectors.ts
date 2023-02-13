@@ -6,10 +6,11 @@ const getLocationData = (state: AppState) => state.weather.locationData;
 const getLocationWeather = (state: AppState) => state.weather.locationWeather;
 const get5DaysForecast = (state: AppState) => state.weather.location5DaysForecast;
 const getCurrentLocationCoordinates = (state: AppState) => state.weather.currentLocationCoordinates;
-const getIsLocationDataPending= (state: AppState) => state.weather.isLocationDataPending;
+const getIsLocationDataPending = (state: AppState) => state.weather.isLocationDataPending;
 const getIsCurrentLocationCoordinatesPending = (state: AppState) => state.weather.isCurrentLocationCoordinatesPending;
 const getIsLocation5DaysForecastPending = (state: AppState) => state.weather.isLocation5DaysForecastPending;
-const getIsLocationWeatherPending= (state: AppState) => state.weather.isLocationWeatherPending;
+const getIsLocationWeatherPending = (state: AppState) => state.weather.isLocationWeatherPending;
+const getError = (state: AppState) => state.weather.error;
 
 export const getIsLocationDataPendingSelector = createSelector(getIsLocationDataPending, (isPending) => isPending);
 export const getIsCurrentLocationCoordinatesPendingSelector = createSelector(getIsCurrentLocationCoordinatesPending, (isPending) => isPending);
@@ -19,3 +20,4 @@ export const getLocationWeatherSelector = createSelector(getLocationWeather, (lo
 export const getLocationDataSelector = createSelector(getLocationData, (locationKey) => locationKey);
 export const get5DaysForecastSelector = createSelector(get5DaysForecast, (locationWeather) => locationWeather);
 export const getCurrentLocationCoordinatesSelector = createSelector(getCurrentLocationCoordinates, (currentLocationCoordinates) => currentLocationCoordinates);
+export const getErrorSelector = createSelector(getError, (error) => error);

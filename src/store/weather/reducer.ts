@@ -7,6 +7,8 @@ import {
     FETCH_LOCATION_DATA_SUCCESS,
     FETCH_LOCATION_WEATHER_REQUEST,
     FETCH_LOCATION_WEATHER_SUCCESS,
+    FETCH_REQUEST_FAILED,
+    RESET_ERROR_REQUEST,
   } from "./actionTypes";
   
   import { WeatherActions, WeatherState } from "./types";
@@ -72,6 +74,20 @@ import {
           ...state,
           isLocationDataPending: false,
           locationData: action.payload,
+          error: null,
+        }
+      case FETCH_REQUEST_FAILED:
+        return {
+          ...state,
+          isLocationWeatherPending: false,
+          isLocationDataPending: false,
+          isCurrentLocationCoordinatesPending: false,
+          isLocation5DaysForecastPending: false,          
+          error: action.payload
+        }
+      case RESET_ERROR_REQUEST: 
+        return {
+          ...state,
           error: null,
         }
       default:
