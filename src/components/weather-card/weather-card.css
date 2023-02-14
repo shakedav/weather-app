@@ -1,25 +1,26 @@
 .card-temp {
     display: flex;
     flex-direction: row;
+    align-items: center;
 }
 
 .card-icon {
-    max-width: 75px;
-    min-height: 45px;
-}
-
-.card-content {
-    padding: 8px;
+    width: 75px;
+    height: 45px;
 }
 
 .type {
     display: flex;
     align-items: center;
     flex-direction: column;
-    min-height: 200px;
+    min-height: 150px;
 }
 
 
 .weather-description {
     text-align: center;
+}
+
+.weather-card {
+    width: 100%;
 }

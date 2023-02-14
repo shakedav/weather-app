@@ -10,7 +10,6 @@ export const getFavorites= () =>{
 }
 
 export const updateFavorites = (locationData: ILocationData) => {
-    console.log('saveToStorage')
     let favoritesList: ILocationData[] = getFavorites();
     const index = favoritesList.findIndex((item) => item.key === locationData?.key)
     if ( index < 0) {

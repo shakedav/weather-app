@@ -1,7 +1,7 @@
 import React, { createContext, Dispatch, SetStateAction, useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { WeatherForecast } from "./pages/weather-forecast";
-import { Favorites } from "./pages/favorites";
+import { WeatherForecast } from "./pages/weather-forecast/weather-forecast";
+import { Favorites } from "./pages/favorites/favorites";
 import { fetchLocationCoordsRequest } from "./store/weather/actions";
 import { Header } from "./components/header/header";
 import { useDispatch, useSelector } from "react-redux";
@@ -41,6 +41,7 @@ export const App: React.FC = (props: any) => {
         <BrowserRouter>
           <Header />
           <Routes>
+            <Route path={'/'} element={<WeatherForecast />} />
             <Route path={'/weather-app/'} element={<WeatherForecast />} />
             <Route path={'/weather-app/details/'} element={<WeatherForecast />} />
             <Route path={'/weather-app/details/:locationKey'} element={<WeatherForecast />} />

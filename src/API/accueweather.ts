@@ -3,7 +3,7 @@ import { I5DaysForeCastRequest } from "../interfaces/five-days-forecast-request.
 import { I5DaysForecast } from "../interfaces/forecast.interface";
 import { ILocationData } from "../interfaces/location-meta-data.interface";
 import { ILocationWeather } from "../interfaces/location-weather.interface";
-import { IPosition } from "../store/weather/location.helper";
+import { IPosition } from "../helpers/location.helper";
 
 export function fetchLocationWeather(locationKey: string): Promise<AxiosResponse<ILocationWeather[]>> {
   return axios.get(`https://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${process.env.REACT_APP_ACCCUEWEATHER_API_KEY}`)
@@ -21,6 +21,13 @@ export function fetch5DaysForecast(payload: I5DaysForeCastRequest): Promise<Axio
 
 export function fetchLocationData(locationCoordinates: IPosition): Promise<AxiosResponse<ILocationData>> {
   return axios.get(`https://dataservice.accuweather.com/locations/v1/cities/geoposition/search?q=${locationCoordinates.lat},${locationCoordinates.lon}&apikey=${process.env.REACT_APP_ACCCUEWEATHER_API_KEY}`)
+  .catch((ex: any) => {
+    throw ex;
+  })
+} 
+
+export function fetchLocationDataByKey(locationKey: string): Promise<AxiosResponse<ILocationData>> {
+  return axios.get(`http://dataservice.accuweather.com/locations/v1/${locationKey}?apikey=${process.env.REACT_APP_ACCCUEWEATHER_API_KEY}`)
   .catch((ex: any) => {
     throw ex;
   })

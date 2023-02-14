@@ -3,12 +3,12 @@ import { Card, CardContent } from "@mui/material";
 import { useContext, useEffect, useState } from "react"
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { fetchLocationWeather } from "../API";
-import { IsMetricContext } from "../App";
-import { getFavorites, updateFavorites } from "../helpers/storage.helper";
-import { ILocationData } from "../interfaces/location-meta-data.interface";
-import { ILocationWeather } from "../interfaces/location-weather.interface";
-import { fetchLocationDataSuccess, fetchLocationWeatherRequest, fetch5DaysForcastRequest, fetchRequestFailed } from "../store/weather/actions";
+import { fetchLocationWeather } from "../../API";
+import { IsMetricContext } from "../../App";
+import { getFavorites, updateFavorites } from "../../helpers/storage.helper";
+import { ILocationData } from "../../interfaces/location-meta-data.interface";
+import { ILocationWeather } from "../../interfaces/location-weather.interface";
+import { fetchLocationDataSuccess, fetchLocationWeatherRequest, fetch5DaysForcastRequest, fetchRequestFailed } from "../../store/weather/actions";
 
 import './favorites.css'
 
@@ -62,7 +62,7 @@ export const Favorites: React.FC = () => {
         dispatch(fetchLocationDataSuccess(favorite))
         dispatch(fetchLocationWeatherRequest(favorite.key));
         dispatch(fetch5DaysForcastRequest({locationKey: favorite.key, isMetric: metricContext.isMetric}));
-        navigate(`/details/${favorite.key}`)
+        navigate(`/weather-app/details/${favorite.key}`)
     }
 
     return (

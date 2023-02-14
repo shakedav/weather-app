@@ -24,7 +24,7 @@ export const SearchBox: React.FC = () => {
               .then(data => {
                 const suggestions: ILocationData[] = data.map((suggestion: {AdministrativeArea: { LocalizedName: string }, Country: { LocalizedName: string }, LocalizedName: string, Key: number, Type: string }) => {
                   return {
-                    name: `${suggestion.Country.LocalizedName}-${suggestion.AdministrativeArea.LocalizedName}-${suggestion.LocalizedName}`, 
+                    name: `${suggestion.LocalizedName}(${suggestion.AdministrativeArea.LocalizedName},${suggestion.Country.LocalizedName})`, 
                     type: suggestion.Type,
                     key: suggestion.Key, 
                     country: suggestion.Country.LocalizedName

@@ -17,3 +17,7 @@ code {
   flex-direction: column;
   padding: 0 20px;
 }
+
+* {
+  font-family: sans-serif;
+}

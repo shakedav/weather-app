@@ -77,12 +77,12 @@ export const CurrentLocationWeather: React.FC<ILocationProps> = ({locationData, 
                             }
                             {isFavorite && <StarSharp fontSize="large" className="favorite-icon favorite" onClick={handleClick} ></StarSharp>}
                         </div> 
-                        <div>{locationWeather && format(new Date(locationWeather.LocalObservationDateTime), 'dd/mm/yyyy HH:MM')}</div>
+                        <div>{locationWeather && format(new Date(locationWeather.LocalObservationDateTime), 'dd/MM/yyyy hh:mm')}</div>
                     </section>
                     <section className="conditions">
                         <img alt="weather-icon" className="weather-icon" src={locationWeather?.WeatherIcon ? `${process.env.PUBLIC_URL}/assets/accueweather-icons/${locationWeather?.WeatherIcon && locationWeather?.WeatherIcon > 10 ? `${locationWeather?.WeatherIcon}-s` : `0${locationWeather?.WeatherIcon}-s`}.png` : ''} />
                         <div className="right-side">
-                            <h2 className="degrees">{`${temp.value} °${temp.units}`}</h2>
+                            <h2 className="degrees">{`${Math.ceil(temp.value!)} °${temp.units}`}</h2>
                             <div>{locationWeather?.WeatherText}</div>
                         </div>
                     </section>

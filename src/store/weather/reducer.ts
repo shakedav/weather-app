@@ -3,6 +3,7 @@ import {
   FETCH_5_DAYS_FORECAST_SUCCESS,
   FETCH_LOCATION_COORDS_REQUEST,
   FETCH_LOCATION_COORDS_SUCCESS,
+    FETCH_LOCATION_DATA_BY_KEY_REQUEST,
     FETCH_LOCATION_DATA_REQUEST,
     FETCH_LOCATION_DATA_SUCCESS,
     FETCH_LOCATION_WEATHER_REQUEST,
@@ -64,6 +65,7 @@ import {
           currentLocationCoordinates: action.payload,
           error: null,
         }
+      case FETCH_LOCATION_DATA_BY_KEY_REQUEST:
       case FETCH_LOCATION_DATA_REQUEST: 
         return {
           ...state,
