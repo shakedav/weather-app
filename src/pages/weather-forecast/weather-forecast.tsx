@@ -8,6 +8,8 @@ import { fetchLocationDataByKeyRequest, fetchLocationDataRequest, fetchLocationW
 import { IPosition } from "../../helpers/location.helper"
 import { getCurrentLocationCoordinatesSelector, getIsCurrentLocationCoordinatesPendingSelector, getIsLocationDataPendingSelector, getLocationDataSelector, getLocationWeatherSelector, getIsLocationWeatherPendingSelector, getErrorSelector } from "../../store/weather/selectors"
 
+import './weather-forecast.css';
+
 export const WeatherForecast: React.FC = () => {
     const dispatch = useDispatch()
     const locationWeather = useSelector(getLocationWeatherSelector)
@@ -43,8 +45,10 @@ export const WeatherForecast: React.FC = () => {
 
     return (
         <>
-        <SearchBox/>
-        {locationWeather && locationData && <CurrentLocationWeather locationWeather={locationWeather} locationData = {locationData}/>}
+        <div className="forecast-wrapper">
+            <SearchBox/>
+            {locationWeather && locationData && <CurrentLocationWeather locationWeather={locationWeather} locationData = {locationData}/>}
+        </div>
         </>
     )
 }

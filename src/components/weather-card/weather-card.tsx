@@ -10,7 +10,7 @@ export interface IWeatherCardProps {
 export const WeatherCard: React.FC<IWeatherCardProps> = ({forecast}) => {
     return (
         <>
-        <Card className="weather-card">
+        <Card className="weather-card" sx={{borderRadius: '10px'}}>
             <CardContent className="card-content">
                 <div>{format(new Date(forecast.Date), 'dd/MM')}</div>
                 <section className="type">

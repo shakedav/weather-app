@@ -39,7 +39,13 @@
     align-items: center;
 }
 
-.right-side {
+.left-side {
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+.inner-right-side {
     display: flex;
     flex-direction: column;
 }
@@ -57,7 +63,16 @@
 }
 
 .location-title {
+    display: grid;
+}
+
+.favorite-wrapper {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    justify-content: flex-end;
+    height: 100%;
+}
+
+.description {
+    border-right: 2px solid;
 }

@@ -15,7 +15,15 @@ code {
 #root {
   display: flex;
   flex-direction: column;
-  padding: 0 20px;
+  background-image: url('/public/assets/favorites-bg.jpeg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+@media only screen and (min-width: 1050px) {
+  #root {
+    height: 100vh;
+  }
 }
 
 * {

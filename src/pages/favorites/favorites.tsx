@@ -67,7 +67,8 @@ export const Favorites: React.FC = () => {
 
     return (
         <>
-            <div style={{marginTop: '20px'}}>
+            <div className="favorites-list-wrapper">
+            <div style={{marginTop: '20px', marginLeft: '20px'}}>
                 <h1>Favorites</h1>
             </div>
             {favoritesWithWeather.length === 0 && <div>No favorite locations yet</div>}
@@ -75,16 +76,19 @@ export const Favorites: React.FC = () => {
                 <div className="favorites-list">
                     {favoritesWithWeather.map((favorite: IFavoriteWithWeather) => {
                     return (
-                        <Card key={favorite.key} sx={{marginRight: '20px'}} onClick={() => navigateToWeather(favorite)}>
+                        <Card key={favorite.key} sx={{marginRight: '20px', maxHeight: '200px', width: '232px', borderRadius: '10px'}} onClick={() => navigateToWeather(favorite)}>
                             <CardContent className="favorite-container">
                                 <section className="favorite-description">
-                                    <div className="location-title">
-                                        <h2>{favorite.name}, {favorite?.country}</h2>
-                                        <StarSharp fontSize="large" className="favorite-icon favorite" onClick={(event: any) => handleClick(event, favorite)} ></StarSharp>
+                                    <div className="favorite-location-title">
+                                        <div>{favorite.name}, {favorite?.country}</div>
+                                        <div className="favorite-icon-wrapper">
+                                            <StarSharp fontSize="large" className="favorite-icon favorite" onClick={(event: any) => handleClick(event, favorite)} ></StarSharp>
+                                        </div>
                                     </div> 
                                 </section>
-                                <section>
+                                <section className="favorite-temp">
                                     {favorite && favorite.weather && <h2 className="degrees favorite-degrees">{getTemprature(favorite.weather)}</h2>}
+                                    <h4 style={{textAlign: 'center'}}>{favorite.weather.WeatherText}</h4>
                                 </section>
                             </CardContent>
                         </Card>
@@ -93,6 +97,7 @@ export const Favorites: React.FC = () => {
             }
             </div>
             }
+            </div>
         </>
     )
 }

@@ -1,8 +1,14 @@
+.favorites-list-wrapper {
+    height: calc(100vh - 85px);
+    color: white;
+}
+
 .favorites-list {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    margin: -20px 0 0 0;
+    margin: -20px 0 0 0;    
+    justify-content: center;
 }
 
 .favorites-list > * {
@@ -11,11 +17,34 @@
 
 .favorite-container {
     max-width: 200px;
-    width: 100%;
+    color: white;
+    background-color: #5195AB;
+    opacity: 0.7;
+}
+
+.favorite-description {
+    min-height: 80px;
 }
 
 .favorite-degrees {
     display: flex;
     flex-direction: row;
     justify-content: center;
+}
+
+.favorite-temp {
+    min-height: 80px;
+}
+
+.favorite-icon-wrapper {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.favorite-location-title {
+    display: grid;
+    grid-template-columns: 1fr 0.5fr;
+    width: 100%;
+    font-size: 20px;
+    font-weight: bold;
 }

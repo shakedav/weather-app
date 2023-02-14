@@ -65,25 +65,28 @@ export const CurrentLocationWeather: React.FC<ILocationProps> = ({locationData, 
     return (
         <>
          <section className="current-location">
-            <Card>
+            <Card sx={{borderRadius: '10px'}}>
                 <CardContent className="current-location-container">
                     <section className="description">
                         <div className="location-title">
-                            <h2>{locationData.name}, {locationData?.country}</h2>
-                            {
+                            <h2 style={{fontSize: '36px'}}>{locationData.name}, {locationData?.country}</h2>                            
+                        </div> 
+                        <div style={{fontSize: '20xp'}}>{locationWeather && format(new Date(locationWeather.LocalObservationDateTime), 'dd/MM/yyyy HH:mm')}</div>
+                    </section>
+                    <section className="conditions">
+                        <div className="left-side">
+                            <img alt="weather-icon" className="weather-icon" src={locationWeather?.WeatherIcon ? `${process.env.PUBLIC_URL}/assets/accueweather-icons/${locationWeather?.WeatherIcon && locationWeather?.WeatherIcon > 10 ? `${locationWeather?.WeatherIcon}-s` : `0${locationWeather?.WeatherIcon}-s`}.png` : ''} />
+                            <div className="inner-right-side">
+                                <h2 className="degrees">{`${Math.ceil(temp.value!)} °${temp.units}`}</h2>
+                                <div>{locationWeather?.WeatherText}</div>
+                            </div>
+                        </div>
+                        <div className="favorite-wrapper">{
                             !isFavorite && <StarOutlineSharp fontSize="large" className="favorite-icon"
                                 onClick={handleClick} 
                                 ></StarOutlineSharp>
                             }
                             {isFavorite && <StarSharp fontSize="large" className="favorite-icon favorite" onClick={handleClick} ></StarSharp>}
-                        </div> 
-                        <div>{locationWeather && format(new Date(locationWeather.LocalObservationDateTime), 'dd/MM/yyyy hh:mm')}</div>
-                    </section>
-                    <section className="conditions">
-                        <img alt="weather-icon" className="weather-icon" src={locationWeather?.WeatherIcon ? `${process.env.PUBLIC_URL}/assets/accueweather-icons/${locationWeather?.WeatherIcon && locationWeather?.WeatherIcon > 10 ? `${locationWeather?.WeatherIcon}-s` : `0${locationWeather?.WeatherIcon}-s`}.png` : ''} />
-                        <div className="right-side">
-                            <h2 className="degrees">{`${Math.ceil(temp.value!)} °${temp.units}`}</h2>
-                            <div>{locationWeather?.WeatherText}</div>
                         </div>
                     </section>
                 </CardContent>
